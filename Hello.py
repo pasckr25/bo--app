@@ -77,5 +77,5 @@ with c_plot_left:
 with c_plot_right:
     st.line_chart(df_results["yield"])
 
-#if st.session_state['result_counter']>9:
-    #df_results.to_excel("results.xlsx")
+if st.session_state['result_counter']>9:
+    df_results.to_csv("results.csv")
