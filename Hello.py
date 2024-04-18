@@ -1,51 +1,81 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
-from streamlit.logger import get_logger
+import pandas as pd
+import numpy as np
 
-LOGGER = get_logger(__name__)
+if 'df_batch' not in st.session_state:
+    st.session_state['df_batch'] = pd.DataFrame(columns=["user","base","ligand","solvent","temperature","concentration"])
 
+if 'df_my_batches' not in st.session_state:
+    st.session_state['df_my_batches'] = pd.DataFrame(columns=["user","base","ligand","solvent","temperature","concentration"])
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+if 'batch_counter' not in st.session_state:
+    st.session_state['batch_counter']=0
 
-    st.write("# Welcome to Streamlit! 👋")
+if 'result_counter' not in st.session_state:
+    st.session_state['result_counter']=0
 
-    st.sidebar.success("Select a demo above.")
-
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+c_rules=st.container()
+c_rules_left, c_rules_right = c_rules.columns(2)
 
 
-if __name__ == "__main__":
-    run()
+with c_rules_left:
+    st.title("Reaction Optimizer")
+    st.text("The rules:")
+    st.text("You are assigned to optimize the following reaction")
+    user=st.text_input("Your user name:")
+with c_rules_right:
+    st.image("img.png")
+
+c_exp=st.container()
+c_exp_left, c_exp_right = c_rules.columns(2)
+
+
+
+if st.session_state['result_counter']<10:
+    with c_exp_left:
+
+        base = st.selectbox('Select a base',['CsOAc', 'KOAc', 'CsOPiv', 'KOPiv'])  # 👈 this is a widget
+        ligand = st.selectbox('Select a ligand',['GorlosPhos HBF4', 'CgMe-PPh', 'JackiePhos', 'PCy3 HBF4', 'BrettPhos', 'PPh2Me', 'PPh3', 'PPhMe2', 'X-Phos', 'P(fur)3', 'PPhtBu2', 'tBPh-CPhos'])  # 👈 this is a widget
+        solvent = st.selectbox('Select a solvent',['BuOAc', 'p-Xylene', 'BuCN', 'DMAc'])  # 👈 this is a widget
+        temperature = st.selectbox('Select a temperature',[120, 105, 90])  # 👈 this is a widget
+        concentration = st.selectbox('Select a concentration',[0.057,0.1, 0.153])  # 👈 this is a widget
+
+        if st.session_state["batch_counter"] <= 4:
+            if st.button("add experiment"):
+                df_append=pd.DataFrame(data={"user":user,"base":base,"ligand":ligand,"solvent":solvent,"temperature":temperature,"concentration":concentration},index=[0])
+                st.session_state['df_batch']=pd.concat([st.session_state['df_batch'],df_append],ignore_index=True)
+                st.session_state["batch_counter"]=st.session_state["batch_counter"]+1
+                st.rerun()
+        else:
+            if st.button("evaluate experiment"):
+                st.session_state['df_my_batches'] = pd.concat([st.session_state['df_my_batches'],st.session_state['df_batch']], ignore_index=True)
+                st.session_state["batch_counter"]=0
+                del st.session_state['df_batch']
+                st.session_state['result_counter']=st.session_state['result_counter']+5
+                st.rerun()
+                #del st.session_state['df_batch']
+
+        with c_exp_right:
+            st.write("Your current batch:")
+            st.dataframe(st.session_state['df_batch'].drop(columns=["user"]))
+        #    df_result=pd.read_csv("reaction_data.csv",header=0)
+         #   st.dataframe(df_result.head())
+else:
+    st.write("Congrats! Thanks ", user," for playing, go ahead and check your results.")
+
+
+
+c_plot=st.container()
+c_plot_left, c_plot_right = c_rules.columns(2)
+with c_plot_left:
+    st.write("Your results so far")
+    df_yield=pd.read_csv("reaction_data.csv",header=0)
+    df_results=st.session_state["df_my_batches"].merge(df_yield,on=["base","ligand","solvent","temperature","concentration"],how="left")
+
+    st.dataframe(df_results.sort_index(ascending=False))
+
+with c_plot_right:
+    st.line_chart(df_results["yield"])
+
+#if st.session_state['result_counter']>9:
+    #df_results.to_excel("results.xlsx")
