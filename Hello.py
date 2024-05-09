@@ -23,8 +23,8 @@ c_rules_left, c_rules_right = c_rules.columns(2)
 
 with c_rules_left:
     st.title("Reaction Optimizer")
-    st.text("The rules:")
-    st.text("You are assigned to optimize the following reaction (see right side) \n Your boss gives you 1 month (20 work days) explore and optimize the entire chemical space.\
+    st.markdown("The rules:")
+    st.markdown("You are assigned to optimize the following reaction (see right side) \nYour boss gives you 1 month (20 work days) explore and optimize the entire chemical space.\
             In total there are 2400??? possible combinations. However you and your team are only able to 5 experiments per day... 5 x 20 = 100 experiments, thats only 5 \% of all possible experiments. \n Choose your experiments wisely. Good Luck!") 
 
     user=st.text_input("Your user name:")
