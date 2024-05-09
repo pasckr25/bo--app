@@ -93,7 +93,8 @@ if st.session_state['result_counter']>9:
         database_df = pd.read_csv(csv_url, on_bad_lines='skip')
 
 
-   #     database_df=pd.concat([database_df,df_results],ignore_index=True)
+        database_df=pd.concat([database_df,df_results],ignore_index=True)
+        st.dataframe(database_df)
 
    #     database_df = database_df.astype(str)
    #     sheet_url = st.secrets["private_gsheets_url"] #this information should be included in streamlit secret
