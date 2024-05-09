@@ -81,15 +81,15 @@ with c_plot_left:
 with c_plot_right:
     st.line_chart(df_results["yield"])
 
-#if st.session_state['result_counter']>9:
-  #  if st.button("Submit your results"):
-  #      # Create a connection object.
-  #      credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"],scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"],)
-  #      #conn = connect(credentials=credentials)
-  #      client=gspread.authorize(credentials)
+if st.session_state['result_counter']>9:
+    if st.button("Submit your results"):
+        # Create a connection object.
+        credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"],scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"],)
+        
+        client=gspread.authorize(credentials)
 
-   #     sheet_id = '1noIa_2NECsdUPp087oSCDqcj1PP6IzDlbTx1RdSuaHg'
-   #     csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
+        sheet_id = '1noIa_2NECsdUPp087oSCDqcj1PP6IzDlbTx1RdSuaHg'
+        csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
    #     database_df = pd.read_csv(csv_url, on_bad_lines='skip')
 
 
