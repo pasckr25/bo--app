@@ -4,3 +4,6 @@ pandas
 pydeck
 streamlit
 openpyxl
+st-gsheets-connection
+gspread
+google-auth
