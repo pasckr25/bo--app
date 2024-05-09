@@ -65,6 +65,7 @@ else:
 
 
 
+
 c_plot=st.container()
 c_plot_left, c_plot_right = c_rules.columns(2)
 with c_plot_left:
