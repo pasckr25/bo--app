@@ -94,10 +94,9 @@ if st.session_state['result_counter']>9:
 
 
         database_df=pd.concat([database_df,df_results],ignore_index=True)
-        st.dataframe(database_df)
 
-   #     database_df = database_df.astype(str)
-   #     sheet_url = st.secrets["private_gsheets_url"] #this information should be included in streamlit secret
-   #     sheet = client.open_by_url(sheet_url).sheet1
-   #     sheet.update([database_df.columns.values.tolist()] + database_df.values.tolist())
-   #     st.success('Data has been written to Google Sheets')
+        database_df = database_df.astype(str)
+        sheet_url = st.secrets["private_gsheets_url"] #this information should be included in streamlit secret
+        sheet = client.open_by_url(sheet_url).sheet1
+        sheet.update([database_df.columns.values.tolist()] + database_df.values.tolist())
+        st.success('Data has been written to Google Sheets')
