@@ -90,7 +90,7 @@ if st.session_state['result_counter']>9:
 
         sheet_id = '1noIa_2NECsdUPp087oSCDqcj1PP6IzDlbTx1RdSuaHg'
         csv_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
-   #     database_df = pd.read_csv(csv_url, on_bad_lines='skip')
+        database_df = pd.read_csv(csv_url, on_bad_lines='skip')
 
 
    #     database_df=pd.concat([database_df,df_results],ignore_index=True)
