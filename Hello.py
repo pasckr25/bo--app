@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+import gspread
+from google.oauth2 import service_account
+
 if 'df_batch' not in st.session_state:
     st.session_state['df_batch'] = pd.DataFrame(columns=["user","base","ligand","solvent","temperature","concentration"])
 
@@ -64,9 +67,7 @@ else:
     st.write("Congrats! Thanks ", user," for playing, go ahead and check your results.")
     if st.button("Submit your results"):
         # Create a connection object.
-        credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"],
-        scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"],)
+        credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"],scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"],)
         #conn = connect(credentials=credentials)
         client=gspread.authorize(credentials)
 
