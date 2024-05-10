@@ -90,7 +90,7 @@ with c_plot_left:
     st.dataframe(df_results.sort_index(ascending=False))
 
 with c_plot_right:
-    st.line_chart(df_results["yield"],y="yield",x="Experiment")
+    st.line_chart(df_results,y="yield")
 
 if st.session_state['result_counter']>99:
     if st.button("Submit your results"):
