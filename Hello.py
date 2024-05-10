@@ -27,11 +27,15 @@ with c_rules_left:
     st.title("Reaction Optimizer")
     st.markdown("The rules:")
     st.markdown("You're boss assigned you to optimize the following reaction (see right side). Of course the project is under time pressure so he only gives you 1 month (20 work days) to explore and optimize the entire chemical space.\
-            In total there are 2400??? possible experiments to choose from, but you and your team are only able to complete 5 experiments per day... 5 $\cdot$ 20 = 100 experiments, thats only 5 \% of all possible combinations.") 
+            In total there are 1728 possible experiments to choose from, but you and your team are only able to complete 5 experiments per day... 5 $\cdot$ 20 = 100 experiments, thats only 6 % of all possible combinations.") 
     st.markdown("Choose your experiments wisely. Good Luck!")
     st.markdown("How this app works: After entering a user name you are able to select experiments (5 at a time) to be conducted \
                 in the your virtual lab. Although this is an oline app the experimental data is real, generated via high throuput methods. Once you have selected 5 experiments the results will be displayed in an overview table down below. In addition there is \
                 a graphical representation of your progress. After conducting all 100 experiments please submit your results to the database.")
+    abr=["KOAc","KOPiv","CsOAc","CsOPiv","BuOAc","p-Xylene","BuCN","DMAc"]
+    engl=["Potassium acetate","Potassium pivalate","Ceasium acetate","Ceasium pivalate","Butyl acetate","Para-xylene","Pivalonitrile","Dimethylacetamide"]
+    df_abr=pd.DataFrame({"Abbreviation":abr,"English":engl})
+    st.dataframe(df_abr)
     user=st.text_input("Your user name:")
 with c_rules_right:
     st.image("img.png")
@@ -41,7 +45,7 @@ c_exp_left, c_exp_right = c_rules.columns(2)
 
 
 
-if st.session_state['result_counter']<10:
+if st.session_state['result_counter']<100:
     with c_exp_left:
 
         base = st.selectbox('Select a base',['CsOAc', 'KOAc', 'CsOPiv', 'KOPiv'])  # 👈 this is a widget
@@ -86,9 +90,9 @@ with c_plot_left:
     st.dataframe(df_results.sort_index(ascending=False))
 
 with c_plot_right:
-    st.line_chart(df_results["yield"])
+    st.line_chart(df_results["yield"],y="yield",x="Experiment")
 
-if st.session_state['result_counter']>9:
+if st.session_state['result_counter']>99:
     if st.button("Submit your results"):
         # Create a connection object.
         credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"],scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"],)
