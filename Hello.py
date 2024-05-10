@@ -5,6 +5,8 @@ import numpy as np
 import gspread
 from google.oauth2 import service_account
 
+st.set_page_config(layout="wide")
+
 if 'df_batch' not in st.session_state:
     st.session_state['df_batch'] = pd.DataFrame(columns=["user","base","ligand","solvent","temperature","concentration"])
 
@@ -24,12 +26,12 @@ c_rules_left, c_rules_right = c_rules.columns(2)
 with c_rules_left:
     st.title("Reaction Optimizer")
     st.markdown("The rules:")
-    st.markdown("You are assigned to optimize the following reaction (see right side)  Your boss gives you 1 month (20 work days) explore and optimize the entire chemical space.\
-            In total there are 2400??? possible combinations. However you and your team are only able to 5 experiments per day... 5 $\cdot$ 20 = 100 experiments, thats only 5 \% of all possible experiments.") 
+    st.markdown("You're boss assigned you to optimize the following reaction (see right side). Of course the project is under time pressure so he only gives you 1 month (20 work days) to explore and optimize the entire chemical space.\
+            In total there are 2400??? possible experiments to choose from, but you and your team are only able to complete 5 experiments per day... 5 $\cdot$ 20 = 100 experiments, thats only 5 \% of all possible combinations.") 
     st.markdown("Choose your experiments wisely. Good Luck!")
     st.markdown("How this app works: After entering a user name you are able to select experiments (5 at a time) to be conducted \
-                in the your lab. Once you have selected 5 experiments the results will be displayed in an overview table down below. In addition there is \
-                a graphical representation of your progress. After conducting all 100 experiments you can submit your results to the database.")
+                in the your virtual lab. Although this is an oline app the experimental data is real, generated via high throuput methods. Once you have selected 5 experiments the results will be displayed in an overview table down below. In addition there is \
+                a graphical representation of your progress. After conducting all 100 experiments please submit your results to the database.")
     user=st.text_input("Your user name:")
 with c_rules_right:
     st.image("img.png")
