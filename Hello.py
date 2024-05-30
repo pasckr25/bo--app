@@ -26,12 +26,14 @@ c_rules_left, c_rules_right = c_rules.columns(2)
 with c_rules_left:
     st.title("Reaction Optimizer")
     st.markdown("The rules:")
-    st.markdown("You're boss assigned you to optimize the following reaction (see right side). Of course the project is under time pressure so he only gives you 1 month (20 work days) to explore and optimize the entire chemical space.\
-            In total there are 1728 possible experiments to choose from, but you and your team are only able to complete 5 experiments per day... 5 $\cdot$ 20 = 100 experiments, thats only 6 % of all possible combinations.") 
-    st.markdown("Choose your experiments wisely. Good Luck!")
+    st.markdown("You're boss assigned you to optimize the yield of the following reaction (see right side). Of course the project is under emense time pressure so he only gives you 2 weeks (10 work days) to explore and optimize the entire chemical space.\
+            In total there are 1728 possible experiments to choose from, but you and your team are only able to complete 5 experiments per day... 5 $\cdot$ 10 = 50 experiments, thats only 3 % of all possible combinations.") 
+    st.markdown("Choose your experiments wisely and try to achieve the greatest yield. Good Luck!")
     st.markdown("How this app works: After entering a user name you are able to select experiments (5 at a time) to be conducted \
-                in the your virtual lab. Although this is an oline app the experimental data is real, generated via high throuput methods. Once you have selected 5 experiments the results will be displayed in an overview table down below. In addition there is \
-                a graphical representation of your progress. After conducting all 100 experiments please submit your results to the database.")
+                in the your virtual lab. Although this is an online app the experimental data is real, generated in a real  lab at Princeton University. Once you have selected 5 experiments the results will be displayed in an overview table down below. In addition there is \
+                a graphical representation of your progress. After conducting all 50 experiments please submit your results to the database.")
+    st.markdown("This app is based on work done by B.J. Shields et al. please check out their work.")
+    st.link_button("Link to original paper","https://www.nature.com/articles/s41586-021-03213-y")
     abr=["KOAc","KOPiv","CsOAc","CsOPiv","BuOAc","p-Xylene","BuCN","DMAc"]
     engl=["Potassium acetate","Potassium pivalate","Ceasium acetate","Ceasium pivalate","Butyl acetate","Para-xylene","Pivalonitrile","Dimethylacetamide"]
     df_abr=pd.DataFrame({"Abbreviation":abr,"English":engl})
@@ -45,7 +47,7 @@ c_exp_left, c_exp_right = c_rules.columns(2)
 
 
 
-if st.session_state['result_counter']<100:
+if st.session_state['result_counter']<50:
     with c_exp_left:
 
         base = st.selectbox('Select a base',['CsOAc', 'KOAc', 'CsOPiv', 'KOPiv'])  # 👈 this is a widget
@@ -55,13 +57,13 @@ if st.session_state['result_counter']<100:
         concentration = st.selectbox('Select a concentration',[0.057,0.1, 0.153])  # 👈 this is a widget
 
         if st.session_state["batch_counter"] <= 4:
-            if st.button("add experiment"):
+            if st.button("add experiment",type="primary"):
                 df_append=pd.DataFrame(data={"user":user,"base":base,"ligand":ligand,"solvent":solvent,"temperature":temperature,"concentration":concentration},index=[0])
                 st.session_state['df_batch']=pd.concat([st.session_state['df_batch'],df_append],ignore_index=True)
                 st.session_state["batch_counter"]=st.session_state["batch_counter"]+1
                 st.rerun()
         else:
-            if st.button("evaluate experiment"):
+            if st.button("evaluate experiment",type="primary"):
                 st.session_state['df_my_batches'] = pd.concat([st.session_state['df_my_batches'],st.session_state['df_batch']], ignore_index=True)
                 st.session_state["batch_counter"]=0
                 del st.session_state['df_batch']
@@ -92,7 +94,7 @@ with c_plot_left:
 with c_plot_right:
     st.line_chart(df_results,y="yield")
 
-if st.session_state['result_counter']>99:
+if st.session_state['result_counter']>49:
     if st.button("Submit your results"):
         # Create a connection object.
         credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"],scopes=["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"],)
