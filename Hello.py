@@ -112,4 +112,4 @@ if st.session_state['result_counter']>49:
         sheet_url = st.secrets["private_gsheets_url"] #this information should be included in streamlit secret
         sheet = client.open_by_url(sheet_url).sheet1
         sheet.update([database_df.columns.values.tolist()] + database_df.values.tolist())
-        st.success('Your data has been saved!')
+        st.success('Your data has been saved! Thanks for playing')
