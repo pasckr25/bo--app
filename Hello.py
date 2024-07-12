@@ -35,10 +35,21 @@ with c_rules_left:
                 a graphical representation of your progress. After conducting all 50 experiments please submit your results to the database.")
     st.markdown("This app is based on work done by B.J. Shields et al. please check out their work.")
     st.link_button("Link to original paper","https://www.nature.com/articles/s41586-021-03213-y")
-    abr=["KOAc","KOPiv","CsOAc","CsOPiv","BuOAc","p-Xylene","BuCN","DMAc"]
-    engl=["Potassium acetate","Potassium pivalate","Ceasium acetate","Ceasium pivalate","Butyl acetate","Para-xylene","Pivalonitrile","Dimethylacetamide"]
-    df_abr=pd.DataFrame({"Abbreviation":abr,"English":engl})
-    st.dataframe(df_abr)
+    c_left_left, c_left_right=c_rules_left.columns(2)
+    with c_left_left:
+        st.text("Bases")
+        abr_base=["KOAc","KOPiv","CsOAc","CsOPiv"]
+        engl_base=["Potassium acetate","Potassium pivalate","Ceasium acetate","Ceasium pivalate"]
+        df_abr_base=pd.DataFrame({"Abbreviation":abr_base,"English":engl_base})
+        st.dataframe(df_abr_base,hide_index=True)
+    with c_left_right:
+        st.text("Solvents")
+        abr_sol=["BuOAc","p-Xylene","BuCN","DMAc"]
+        engl_sol=["Butyl acetate","Para-xylene","Pivalonitrile","Dimethylacetamide"]
+        df_abr_sol=pd.DataFrame({"Abbreviation":abr_sol,"English":engl_sol})      
+        st.dataframe(df_abr_sol,hide_index=True)
+
+
     user=st.text_input("Your user name:")
 with c_rules_right:
     st.image("img.png")
