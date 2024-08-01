@@ -26,13 +26,14 @@ c_rules_left, c_rules_right = c_rules.columns(2)
 
 with c_rules_left:
     st.title("Reaction Optimizer")
-    st.markdown("The rules:")
-    st.markdown("You're boss assigned you to optimize the yield of the following reaction (see right side). Of course the project is under emense time pressure so he only gives you 2 weeks (10 work days) to explore and optimize the entire chemical space.\
-            In total there are 1728 possible experiments to choose from, but you and your team are only able to complete 5 experiments per day... 5 $\cdot$ 10 = 50 experiments, thats only 3 % of all possible combinations.") 
-    st.markdown("Choose your experiments wisely and try to achieve the greatest yield. Good Luck!")
-    st.markdown("How this app works: After entering a user name you are able to select experiments (5 at a time) to be conducted \
-                in the your virtual lab. Although this is an online app the experimental data is real, generated in a real  lab at Princeton University. Once you have selected 5 experiments the results will be displayed in an overview table down below. In addition there is \
-                a graphical representation of your progress. After conducting all 50 experiments please submit your results to the database.")
+    st.markdown("Imagine the following scenario:")
+    st.markdown("Your boss assigned you to optimize the yield of a homogeneous catalyzed reaction (see right side). Of course, the project is under immense time pressure, so he only gives you 2 weeks (10 workdays) to explore process parameters such as ligands, solvents, bases, temperatures, and substrate concentrations.\
+    Based on information you found in the literature you were already able to select promising candidates for this reaction. Unfortunately, there are still 1728 experiments to choose from, and you and your team will only be able to complete 5 experiments per day...\
+    5 $\cdot$ 10 = 50 experiments, which is only 3 % of the entire chemical space.") 
+    st.markdown("It is now up to you to develop an optimization strategy for this problem. Choose your experiments wisely and try to learn as much as possible about the presented system. Good Luck!")
+    st.markdown("How this app works: After entering a username you can select 5 experiments at a time (they will be displayed in the “Your current batch” section) to be conducted in your virtual lab. Although this is an online app the experimental data is real, generated in a lab at Princeton University.\
+    Once you have selected your next 5 experiments the results will be displayed in an overview table down below. In addition, there is a graphical representation of your progress.\
+    Based on the information you received you can select the next 5 experiments. After conducting all 50 experiments, please submit your results to the database.")
     st.markdown("This app is based on work done by B.J. Shields et al. please check out their work.")
     st.link_button("Link to original paper","https://www.nature.com/articles/s41586-021-03213-y")
     c_left_left, c_left_right=c_rules_left.columns(2)
